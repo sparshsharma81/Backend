@@ -14,5 +14,9 @@ the 200 indicates--- ok
 404 -- indicates error-
 500 ---indicates server error
   */
+ 
   res.end('Hello World!');
-}).listen(8001);
+}).listen(5740);
+
+//first we need to press ctrl + alt + n in order to start the server..and then we need to press ctrl + c and then 
+// we will run in the new process 
