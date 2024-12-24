@@ -48,4 +48,9 @@ age = 20;
 
 
 if we do 
-Object.freeze(obj);
+Object.freeze(obj); --- this will freeze the objects and no changes will be happen after that...
+
+asynchrounous and synchronous code
+ 
+
+asynchrounous --- line by line code chale..

@@ -1,0 +1,5 @@
+JOSN.stringify() --- this is a method which convert data into string so that we can send the data to the server
+
+JSON.parse() ----- it is a method which is used to convert string to data so that we can use it..
+
+revert proxy -- reverse proxy ---- 

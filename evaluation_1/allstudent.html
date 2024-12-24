@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+</head>
+<body>
+    <script>
+        //when the user generate a particular request and the html regenerate a request---reverse proxy
+        document.getElementsByTagName("h1")[0].innerHTML = "vikas patel";
+        fetch("http://localhost:3000")
+        .then((response)=>{return response.json()})
+        .then((data)=>{
+            console.log(data);
+
+            const table = document.createElement('table');
+            const tableBody = document.createElement('tbody');
+
+            data.forEach(person=>{
+                const row = document.
+            })
+
+        })
+    </script>
+</body>
+</html>

@@ -5,3 +5,5 @@ const server = http.createServer((req,res)=>{
     res.end("chitkara university...");
 });
 server.listen(2300);
+//rest operator..spread opeartor....
+
