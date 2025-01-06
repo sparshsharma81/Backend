@@ -6,7 +6,7 @@ const path = require('path');
 app.set('view engine', 'ejs');
 
 // Set the views directory (optional, defaults to './views')
-// app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views'));
 
 
 //now we are using static middleware---
