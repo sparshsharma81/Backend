@@ -1,0 +1,27 @@
+now here we are going to link the express project with mongo db---
+
+
+
+
+
+
+db.students.find()
+db.students.deleteOne({_id:ObjectId('677ed52c56cecb9603a0d573')})
+db.students.find().pretty()
+db.students.updateOne({_id: ObjectId('677ed889965315c4be947c93')},{$set:{"name":"sample3345"}})
+
+
+
+now installing mongoose---
+npm i moongoose 
+
+
+we are making model in our database...
+for the model.... 
+we will bring mvc in our moodel
+..mvc is bacically defines the tables in the model..
+we are making a enquiry systum and making the enquiry model.js
+
+
+in compaines when we work..we implement mvc architecture...
+we will make a folder routes..we can add middleware...
