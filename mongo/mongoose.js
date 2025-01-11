@@ -1,61 +1,36 @@
 let express = require('express');
 require('dotenv').config();
 var mongoose = require('mongoose');
-const enquiryModel = require('./model/enquiry.model');
+const enquiryModel = require('./app/model/enquiry.model');
+// const {enquiryInsert,enquiryList,deleteEnquiry, EnquiryUpdate} = require('./app/controllers/web/userEnquiryController')
+const enquiryRoutes = require('./app/routes/web/EnquiryRoutes');
 let app = express();
 app.use(express.json());
 
 //this is the insertion data technique
-app.post("/api/enquiry.insert",(req,res)=>{
-    let{name,email,phone,message}=req.body;
-    // console.log(name,email,phone,message);
-    let enquiry = new enquiryModel({
-        name:name,
-        email:email,
-        phone:phone,
-        message:message
-    });
-    enquiry.save().then(()=>{
-        console.log({status:1,msg:"data is saved..."});
-    }).catch(()=>{
-        console.log({status:0,msg:`there is an error${err}`});
-    })
-
-    res.send("Data Saved");
-});
+// app.post("/api/enquiry.insert",enquiryInsert);
 
 
 
-app.get("/api/enquiry.get",async (req,res)=>{
+// app.get("/api/enquiry.get",enquiryList)
     // res.send({status:1,message:"Enquiry list",data:[]})
     //the upper line which is commented..we can also do like...
     //we need not to write res.send.... 
 
-    let enquiryList = await enquiryModel.find(); //answer array me hi return karega
-    res.status('200').json({status:1,message:"Enquiry-list", data:[enquiryList]})
-})
+    // let enquiryList = await enquiryModel.find(); //answer array me hi return karega
+    // res.status('200').json({status:1,message:"Enquiry-list", data:[enquiryList]})
+
 //now we are connecting to mongodb
 
 
-app.delete("/api/enquiry.delete/:id",async (req,res)=>{
-    let enquiryId = req.params.id;
-    let deleteEnquiry = await enquiryModel.deleteOne({_id:enquiryId})
-    res.send({status:1, msg:"deleted data",id:enquiryId, delRes:deleteEnquiry});
-})
+// app.delete("/api/enquiry.delete/:id",deleteEnquiry)
 
-app.put("/api/enquiry.update/:id",async (req,res)=>{
-    let enquiryId = req.params.id;
-    let {name,email,phone,message} = req.body;
-    let updateObj ={
-        name:name,
-        email:email,
-        phone:phone,
-        message:message
-    };
-    let updateRes = await enquiryModel.updateOne({_id:enquiryId},updateObj)
-    res.send({status:1,msg:"The data is updated",id:updateRes});
-    
-})
+// app.put("/api/enquiry.update/:id",EnquiryUpdate)
+
+
+app.use("/web/api/enquiry",enquiryRoutes)//ye naam api ke aage judega////
+
+//now in the localhost we need to write -- http://localhost:8000/web/api/enquiry/enquiry.insert and such things...
 
 mongoose.connect(process.env.DBURL).then(()=>{ //now this is a kind of promise...
     // we are using a callback function then in this...
