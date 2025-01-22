@@ -1,0 +1,14 @@
+{
+  "name": "lect-08-17-jan-2025--express",
+  "version": "1.0.0",
+  "description": "Routing refers to defining application endpoints (URIs) and handling client requests in web applications. In **Express.js**, routing can be categorized into **static routing** and **dynamic routing**.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}
