@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Posts</title>
+    <style>
+        body{
+            background-color: burlywood;
+            margin-left: 5%;
+        }
+        .navbar{
+            height: 8vh;
+            width: 95%;
+            border-bottom: 1px solid #000000;
+        }
+        h1{
+            font-family:Arial, Helvetica, sans-serif;
+            font-size: xx-large;
+            text-transform: capitalize;
+            font-weight: 700;
+        }
+        .grid-container{
+            height: max-content;
+            width: 95%;
+            /* background-color: black; */
+            display: grid;
+            grid-template-columns: auto auto auto;
+            column-gap: 5vw;
+            margin-top: 3vh;
+            justify-content: center;
+        }
+        .grid{
+            padding: 5px;
+            height: fit-content;
+            width: 25vw;
+            /* background-color: red; */
+            /* border: 1px solid black; */
+            border-radius: 5px;
+        }
+        .image-container{
+            width: 100%;
+            height: 40vh;
+            object-fit: contain;
+            /* background-color: pink; */
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .image-container img{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .head{
+            font-size: large;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 700;
+            border-bottom: 1px solid black;
+        }
+        .content{
+            font-size: large;
+            font-family: 'Times New Roman', Times, serif;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <center>
+            <h1>Latest Posts</h1>
+        </center>
+    </div>
+    <div class="grid-container">
+        <% if (single) { %>
+            <div class="grid">
+                <div class="image-container">
+                    <img src="<%= post.image %>" alt="Image Unavailable" class="" >
+                </div>
+                <br><br>
+                <center><span class="head" ><%= post.title %></span></center>
+                <p class="content" ><%= post.content  %></p>
+            </div>
+        <% }  else { %>
+            <% posts.forEach(post => { %>
+                <div class="grid">
+                    <div class="image-container">
+                        <img src="<%= post.image %>" alt="Image Unavailable" class="" >
+                    </div>
+                    <br><br>
+                    <center><span class="head" ><%= post.title %></span></center>
+                    <p class="content" ><%= post.content  %></p>
+                </div>
+            <% }); %>
+        <% } %>
+    </div>
+</body>
+</html>

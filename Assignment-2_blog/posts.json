@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "image": "https://c4.wallpaperflare.com/wallpaper/517/233/304/awesome-bridge-fff-8k-wallpaper-preview.jpg",
+    "title": "My First Blog Post",
+    "content": "This is the content of my first blog post."
+  },
+  {
+    "id": 2,
+    "image": "https://c4.wallpaperflare.com/wallpaper/332/1022/387/anme-1920x1200-spiderman-wallpaper-preview.jpg",
+    "title": "Understanding JavaScript Closures",
+    "content": "Closures are an important concept in JavaScript. They allow functions to access variables from an enclosing scope."
+  },
+  {
+    "id": 3,
+    "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHMTafBeJ-VJ9hVJbIxAjprXT7wvwGbIVQpA&s",
+    "title": "Why Learn Node.js?",
+    "content": "Node.js is a powerful JavaScript runtime that allows you to build fast and scalable server-side applications."
+  }
+]
