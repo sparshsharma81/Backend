@@ -1,0 +1,10 @@
+we should not install the package globally
+we can install it but the best practice is that we should not do it..
+because there are chances of security issue..
+basically the package can send our data to the server...
+
+
+
+we are installing morgan
+
+

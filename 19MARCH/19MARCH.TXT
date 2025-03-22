@@ -1,0 +1,6 @@
+a high level language can not operate with operating system
+
+nodejs is compile and interrupted
+there are two elbows 
+
+eec elbow --- early error checking elbow 
