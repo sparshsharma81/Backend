@@ -1,0 +1,24 @@
+this is the dummy data file 
+client file ka naam kuch bhi daal sakta hai
+
+
+__dirname and __filename --- when javascript runs it sets two names in memory allocation 
+
+
+to change the path of filename 
+const filepath = __dirname + "/" + filename + ".txt";  --this can change the file path..
+but it will cause error in some cases as linux is using forward slash \
+
+so we are using path.join();
+ 
+const filepath = path.join("sparsh","tarandeep","yashsvi","aditya");
+console.log(filepath);
+--it will automatically add \ in the file path names 
+
+
+
+
+
+
+
+  
