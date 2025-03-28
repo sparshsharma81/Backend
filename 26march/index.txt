@@ -16,6 +16,14 @@ console.log(filepath);
 --it will automatically add \ in the file path names 
 
 
+there are 5 types of middleware
+
+1.error handling --sending the error that the developer is generating
+
+2.third party
+3.build in
+4.route level
+5.application level
 
 
 
