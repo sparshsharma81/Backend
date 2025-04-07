@@ -1,0 +1,8 @@
+
+GET https://www.googleapis.com/youtube/v3/search
+?part=snippet
+&q=shorts
+&type=video
+&maxResults=10
+&videoDuration=short
+&key=YOUR_API_KEY

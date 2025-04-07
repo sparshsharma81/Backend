@@ -1,0 +1,26 @@
+# Get the API key from here: https://ai.google.dev/tutorials/setup
+# Create a new secret called "GOOGLE_API_KEY", via Add-ons/Secrets in the top menu, and attach it to this notebook
+
+!pip3 install google_genai
+
+from google import genai
+from google.genai import types
+from kaggle_secrets import UserSecretsClient
+
+user_secrets = UserSecretsClient()
+GOOGLE_API_KEY = user_secrets.get_secret("GOOGLE_API_KEY")
+client = genai.Client(api_key=GOOGLE_API_KEY)
+
+MODEL_ID = "models/gemini-2.0-flash-exp"
+
+# Generate content
+response = client.models.generate_content(
+    model=MODEL_ID,
+    contents="What's the largest planet in our solar system?"
+)
+
+print(response.text) 
+
+
+
+for the gemini api...https://ai.google.dev/gemini-api/docs/api-key

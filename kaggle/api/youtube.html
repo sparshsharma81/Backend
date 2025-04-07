@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube Shorts Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              darkbg: "#0d0d0d",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        overflow: hidden;
+        background-color: #0d0d0d;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body class="text-white">
+
+    <div id="container" class="relative w-screen h-screen">
+      <div id="player" class="w-full h-full bg-black"></div>
+
+      <!-- Volume Slider -->
+      <input
+        type="range"
+        id="volume-slider"
+        min="0"
+        max="100"
+        value="50"
+        class="absolute bottom-6 left-1/2 transform -translate-x-1/2 w-64 z-50"
+      />
+
+      <!-- Next Button -->
+      <button
+        id="next-button"
+        class="absolute right-5 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-20 hover:bg-opacity-40 px-4 py-2 rounded-md text-sm font-medium z-50"
+      >
+        Next ▶️
+      </button>
+
+      <!-- Channel Input -->
+      <div class="absolute top-4 left-4 z-50 flex gap-2 items-center">
+        <input
+          id="channelInput"
+          type="text"
+          placeholder="Channel ID or keyword"
+          class="bg-white/10 border border-white/20 px-3 py-1 rounded-md text-sm text-white placeholder:text-white/50"
+        />
+        <button
+          onclick="loadChannel()"
+          class="bg-white text-black px-3 py-1 rounded-md text-sm font-semibold"
+        >
+          Load
+        </button>
+      </div>
+    </div>
+
+    <script>
+      let player;
+      let currentIndex = 0;
+      let shorts = [];
+      let currentQuery = "@MrBeast"; // Default
+
+      const API_KEY = "AIzaSyCncCNgBKeYCV_eLFMFk514INNMVZ7DFYs"; // Your API key
+
+      async function searchShorts(query) {
+        const apiUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${query}&type=video&videoDuration=short&maxResults=10&key=${API_KEY}`;
+        const res = await fetch(apiUrl);
+        const data = await res.json();
+        shorts = data.items.map((item) => item.id.videoId);
+        currentIndex = 0;
+      }
+
+      function loadVideo(index) {
+        if (player && shorts[index]) {
+          player.loadVideoById(shorts[index]);
+        }
+      }
+
+      function onYouTubeIframeAPIReady() {
+        player = new YT.Player("player", {
+          height: "100%",
+          width: "100%",
+          videoId: "",
+          playerVars: {
+            autoplay: 1,
+            controls: 0,
+            mute: 0,
+            rel: 0,
+            modestbranding: 1,
+            playsinline: 1,
+          },
+          events: {
+            onReady: onPlayerReady,
+            onStateChange: onPlayerStateChange,
+          },
+        });
+      }
+
+      function onPlayerReady() {
+        document
+          .getElementById("volume-slider")
+          .addEventListener("input", (e) => {
+            player.setVolume(e.target.value);
+          });
+
+        document
+          .getElementById("next-button")
+          .addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % shorts.length;
+            loadVideo(currentIndex);
+          });
+
+        searchShorts(currentQuery).then(() => {
+          loadVideo(currentIndex);
+        });
+      }
+
+      function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.ENDED) {
+          currentIndex = (currentIndex + 1) % shorts.length;
+          loadVideo(currentIndex);
+        }
+      }
+
+      function loadChannel() {
+        const val = document.getElementById("channelInput").value.trim();
+        if (!val) return;
+        currentQuery = val;
+        searchShorts(currentQuery).then(() => {
+          loadVideo(currentIndex);
+        });
+      }
+
+      // Load YouTube IFrame API
+      const tag = document.createElement("script");
+      tag.src = "https://www.youtube.com/iframe_api";
+      document.body.appendChild(tag);
+    </script>
+  </body>
+</html>
