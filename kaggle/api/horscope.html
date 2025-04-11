@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horoscope</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .horoscope-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .horoscope-item {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .horoscope-item h3 {
+            margin: 0;
+            color: #007BFF;
+        }
+
+        .horoscope-item p {
+            margin: 5px 0 0;
+            color: #555;
+        }
+
+        .error-message {
+            color: red;
+            text-align: center;
+        }
+
+        .sign-selection {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .sign-selection select {
+            padding: 10px;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Horoscope of the Day</h1>
+        <div class="sign-selection">
+            <label for="zodiac-sign">Choose your Zodiac Sign: </label>
+            <select id="zodiac-sign">
+                <option value="aries">Aries</option>
+                <option value="taurus">Taurus</option>
+                <option value="gemini">Gemini</option>
+                <option value="cancer">Cancer</option>
+                <option value="leo">Leo</option>
+                <option value="virgo">Virgo</option>
+                <option value="libra">Libra</option>
+                <option value="scorpio">Scorpio</option>
+                <option value="sagittarius">Sagittarius</option>
+                <option value="capricorn">Capricorn</option>
+                <option value="aquarius">Aquarius</option>
+                <option value="pisces">Pisces</option>
+            </select>
+            <button onclick="fetchHoroscope()">Get Horoscope</button>
+        </div>
+        <div id="error-message" class="error-message"></div>
+        <ul id="horoscope-list" class="horoscope-list"></ul>
+    </div>
+
+    <script>
+        // Function to fetch horoscope data
+        const fetchHoroscope = async () => {
+    const zodiacSign = document.getElementById('zodiac-sign').value;
+    const url = `https://cors-anywhere.herokuapp.com/https://aztro.sameerkumar.website?sign=${zodiacSign}&day=today`;
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST' // Aztro API requires a POST method
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch horoscope');
+        }
+
+        const data = await response.json();
+        displayHoroscope(data);
+    } catch (error) {
+        console.error('Error fetching horoscope:', error);
+        document.getElementById('error-message').textContent = 'There was an error fetching the horoscope data.';
+    }
+};
+
+        // Function to display the horoscope data
+        const displayHoroscope = (data) => {
+            const horoscopeList = document.getElementById('horoscope-list');
+            horoscopeList.innerHTML = ''; // Clear any existing content
+
+            const li = document.createElement('li');
+            li.classList.add('horoscope-item');
+            li.innerHTML = `
+                <h3>${data.sunsign} Horoscope</h3>
+                <p><strong>Date:</strong> ${data.current_date}</p>
+                <p><strong>Description:</strong> ${data.description}</p>
+                <p><strong>Lucky Number:</strong> ${data.lucky_number}</p>
+                <p><strong>Lucky Color:</strong> ${data.lucky_color}</p>
+            `;
+            horoscopeList.appendChild(li);
+        };
+    </script>
+</body>
+</html>
