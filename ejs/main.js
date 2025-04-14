@@ -25,3 +25,6 @@ app.get('/second',(req,res)=>{
 app.listen(8000,(req,res)=>{
     console.log("The server is working perfectly....");
 })
+
+
+//this is ejs file systum
