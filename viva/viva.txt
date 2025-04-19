@@ -217,3 +217,9 @@ const cookieParser = require('cookie-parser')
 
 // load the cookie-parsing middleware
 app.use(cookieParser())
+
+
+
+
+in the express version before 4.16.0 the body parser is a third party middleware..but since it is used soo much..so it is build in middleware 
+in the next updates
