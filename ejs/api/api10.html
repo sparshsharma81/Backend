@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenRouteService API Test</title>
+</head>
+<body>
+  <h2>OpenRouteService Route Test</h2>
+
+  <label>Start (lng, lat):</label><br>
+  <input type="text" id="start" value="8.681495,49.41461"><br><br>
+
+  <label>End (lng, lat):</label><br>
+  <input type="text" id="end" value="8.687872,49.420318"><br><br>
+
+  <button onclick="getRoute()">Get Route</button>
+
+  <h3>Response:</h3>
+  <pre id="response" style="background:#f0f0f0; padding:10px;"></pre>
+
+  <script>
+    async function getRoute() {
+      const start = document.getElementById("start").value.trim();
+      const end = document.getElementById("end").value.trim();
+      const responseBox = document.getElementById("response");
+
+      if (!start || !end) {
+        alert("Please enter both start and end coordinates.");
+        return;
+      }
+
+      const startCoords = start.split(',').map(Number);
+      const endCoords = end.split(',').map(Number);
+
+      const url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Authorization": "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",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            coordinates: [startCoords, endCoords]
+          })
+        });
+
+        const text = await res.text();
+
+        try {
+          const json = JSON.parse(text);
+          responseBox.textContent = JSON.stringify(json, null, 2);
+        } catch {
+          responseBox.textContent = "Non-JSON response:\n" + text;
+        }
+
+      } catch (error) {
+        responseBox.textContent = "Request failed:\n" + error;
+      }
+    }
+  </script>
+</body>
+</html>

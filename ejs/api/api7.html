@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DeepSeek</title>
+  <style>
+    /* Reset basic styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      background-color: #f4f4f4;
+    }
+
+    header {
+      background: #333;
+      color: #fff;
+      padding: 1rem 0;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+    }
+
+    nav ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    nav ul li {
+      display: inline;
+      margin-right: 15px;
+    }
+
+    nav ul li a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .content {
+      padding: 2rem;
+      margin: 1rem;
+      background-color: #fff;
+      border-radius: 8px;
+    }
+
+    #user-input {
+      width: 100%;
+      height: 100px;
+      margin-bottom: 1rem;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #555;
+    }
+
+    #response {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #eaeaea;
+      border-radius: 8px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #333;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Welcome to DeepSeek</h1>
+      <nav>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="content">
+      <h2>What is DeepSeek?</h2>
+      <p>DeepSeek is a powerful tool designed to help you explore, analyze, and gain insights from deep data sources.</p>
+    </section>
+
+    <section id="api-interaction" class="content">
+      <h2>Ask DeepSeek</h2>
+      <textarea id="user-input" placeholder="Ask your question..."></textarea>
+      <button id="submit-query">Submit</button>
+      <div id="response"></div>
+    </section>
+
+    <section id="about" class="content">
+      <h2>About DeepSeek</h2>
+      <p>Learn more about how DeepSeek helps with data analysis and AI-driven insights.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 DeepSeek. All rights reserved.</p>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Define the API endpoint
+      const apiUrl = "https://api.deepseek.com/endpoint"; // Replace with actual API endpoint
+      
+      $('#submit-query').click(function () {
+        const userInput = $('#user-input').val();
+
+        if (userInput.trim()) {
+          // Make the API request
+          $.ajax({
+            url: apiUrl,
+            method: "POST",
+            headers: {
+              "Authorization": "Bearer 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", // Your API key
+              "Content-Type": "application/json"
+            },
+            data: JSON.stringify({ query: userInput }),
+            success: function (response) {
+              // Display the API response
+              $('#response').html("<strong>DeepSeek Response:</strong><br>" + response.answer);
+            },
+            error: function () {
+              $('#response').html("<strong>Error:</strong> Something went wrong.");
+            }
+          });
+        } else {
+          $('#response').html("<strong>Error:</strong> Please enter a valid query.");
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

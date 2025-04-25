@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>DeepSeek API Test</title>
+</head>
+<body>
+  <h2>DeepSeek API Tester</h2>
+
+  <label>API Key:</label><br>
+  <input type="text" id="apiKey" placeholder="Paste your API key here" style="width: 400px;"><br><br>
+
+  <label>Prompt:</label><br>
+  <textarea id="prompt" rows="5" cols="60" placeholder="Enter your prompt..."></textarea><br><br>
+
+  <button onclick="callDeepSeek()">Send</button>
+
+  <h3>Response:</h3>
+  <pre id="response"></pre>
+
+  <script>
+    async function callDeepSeek() {
+      const apiKey = document.getElementById("apiKey").value.trim();
+      const prompt = document.getElementById("prompt").value.trim();
+      const responseBox = document.getElementById("response");
+
+      if (!apiKey || !prompt) {
+        alert("Please enter both the API key and a prompt.");
+        return;
+      }
+
+      responseBox.textContent = "Loading...";
+
+      try {
+        const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [{ role: "user", content: prompt }]
+          })
+        });
+
+        const text = await res.text();
+
+        try {
+          const data = JSON.parse(text);
+          responseBox.textContent = data.choices?.[0]?.message?.content || "No response message.";
+        } catch (e) {
+          responseBox.textContent = "Error parsing response:\n" + text;
+        }
+      } catch (error) {
+        responseBox.textContent = "Request failed:\n" + error;
+      }
+    }
+  </script>
+</body>
+</html>

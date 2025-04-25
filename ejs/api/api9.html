@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenRouteService API Test</title>
+</head>
+<body>
+  <h2>OpenRouteService Route Test</h2>
+
+  <label>API Key:</label><br>
+  <input type="text" id="apiKey" placeholder="Paste your OpenRoute API key" style="width: 400px;"><br><br>
+
+  <label>Start (lng, lat):</label><br>
+  <input type="text" id="start" value="8.681495,49.41461"><br><br>
+
+  <label>End (lng, lat):</label><br>
+  <input type="text" id="end" value="8.687872,49.420318"><br><br>
+
+  <button onclick="getRoute()">Get Route</button>
+
+  <h3>Response:</h3>
+  <pre id="response"></pre>
+
+  <script>
+    async function getRoute() {
+      const apiKey = document.getElementById("apiKey").value.trim();
+      const start = document.getElementById("start").value.trim();
+      const end = document.getElementById("end").value.trim();
+      const responseBox = document.getElementById("response");
+
+      if (!apiKey || !start || !end) {
+        alert("Please fill in all fields.");
+        return;
+      }
+
+      const startCoords = start.split(',').map(Number);
+      const endCoords = end.split(',').map(Number);
+
+      const url = "https://api.openrouteservice.org/v2/directions/driving-car/geojson";
+
+      try {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Authorization": apiKey,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            coordinates: [startCoords, endCoords]
+          })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          responseBox.textContent = JSON.stringify(data, null, 2);
+        } else {
+          responseBox.textContent = "Error: " + (data.error || JSON.stringify(data));
+        }
+      } catch (err) {
+        responseBox.textContent = "Request failed: " + err;
+      }
+    }
+  </script>
+</body>
+</html>

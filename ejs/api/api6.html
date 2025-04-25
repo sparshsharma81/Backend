@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DeepSeek API Tester</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #1e1e2f;
+      color: #f0f0f0;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #61dafb;
+    }
+
+    textarea, input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      background: #2c2c3a;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 4px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #61dafb;
+      border: none;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #52c1e8;
+    }
+
+    #response {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      background: #2a2a38;
+      padding: 15px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>DeepSeek API Tester</h1>
+  <label for="prompt">Enter your prompt:</label>
+  <textarea id="prompt" rows="6" placeholder="Type something..."></textarea>
+  <button onclick="sendToDeepSeek()">Send to DeepSeek</button>
+  <div id="response">Response will appear here...</div>
+
+  <script>
+    async function sendToDeepSeek() {
+      const prompt = document.getElementById("prompt").value;
+      const responseDiv = document.getElementById("response");
+
+      responseDiv.textContent = "Sending request...";
+
+      try {
+        const res = await fetch("https://api.deepseek.com/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "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"
+          },
+          body: JSON.stringify({
+            model: "deepseek-chat",
+            messages: [
+              { role: "user", content: prompt }
+            ]
+          })
+        });
+
+        const data = await res.json();
+
+        if (data && data.choices && data.choices.length > 0) {
+          responseDiv.textContent = data.choices[0].message.content;
+        } else {
+          responseDiv.textContent = "No response received.";
+        }
+      } catch (error) {
+        console.error(error);
+        responseDiv.textContent = "Error: " + error.message;
+      }
+    }
+  </script>
+</body>
+</html>
