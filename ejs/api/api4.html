@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Text to Image Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background: #f5f5f5;
+      color: #333;
+    }
+    label, input, textarea {
+      display: block;
+      margin-bottom: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 60px;
+    }
+    button {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    #imageResult {
+      margin-top: 20px;
+    }
+    img {
+      max-width: 100%;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Text to Image Generator (Modelslab API)</h2>
+
+  <label for="prompt">Prompt:</label>
+  <textarea id="prompt">ultra realistic close up portrait ((beautiful pale cyberpunk female with heavy black eyeliner))</textarea>
+
+  <label for="negative_prompt">Negative Prompt:</label>
+  <textarea id="negative_prompt">bad quality</textarea>
+
+  <button onclick="generateImage()">Generate Image</button>
+
+  <div id="imageResult"></div>
+
+  <script>
+    function generateImage() {
+      const prompt = document.getElementById('prompt').value;
+      const negativePrompt = document.getElementById('negative_prompt').value;
+
+      const requestData = {
+        key: "qr1CNaY0MymrAEAaAaizaj3ZqFDFXZkKbhGRpuHaFW5JCyFMtUhWl8XliD65", // Replace with your actual API key
+        prompt: prompt,
+        negative_prompt: negativePrompt,
+        width: "512",
+        height: "512",
+        safety_checker: false,
+        seed: null,
+        samples: 1,
+        base64: false,
+        webhook: null,
+        track_id: null
+      };
+
+      document.getElementById('imageResult').innerHTML = "Generating image...";
+
+      fetch("https://modelslab.com/api/v6/realtime/text2img", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(requestData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "success" && data.output && data.output.length > 0) {
+          document.getElementById('imageResult').innerHTML =
+            `<strong>Generated Image:</strong><br><img src="${data.output[0]}" alt="Generated Image">`;
+        } else {
+          document.getElementById('imageResult').innerText = "Error generating image.";
+          console.error(data);
+        }
+      })
+      .catch(error => {
+        document.getElementById('imageResult').innerText = "Error: " + error;
+        console.error(error);
+      });
+    }
+  </script>
+
+</body>
+</html>
+
+
+
+
+//"qr1CNaY0MymrAEAaAaizaj3ZqFDFXZkKbhGRpuHaFW5JCyFMtUhWl8XliD65",

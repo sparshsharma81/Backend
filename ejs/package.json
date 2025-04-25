@@ -9,7 +9,9 @@
   "license": "ISC",
   "keywords": [],
   "dependencies": {
+    "@google/genai": "^0.10.0",
     "bootstrap": "^5.3.3",
+    "cors": "^2.8.5",
     "expres": "^0.0.5",
     "express": "^4.21.2"
   },

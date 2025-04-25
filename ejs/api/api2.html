@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Text to Image Generator - Flux API (jQuery)</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    form {
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #output {
+      text-align: center;
+      margin-top: 30px;
+    }
+    img {
+      max-width: 100%;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>AI Text to Image Generator (Flux API)</h1>
+
+  <form id="generateForm">
+    <input type="text" id="prompt" placeholder="Enter your image prompt" value="iron man and spider man">
+    <input type="number" id="style_id" placeholder="Style ID (e.g. 2)" value="2">
+    <input type="text" id="size" placeholder="Image size (e.g. 1-1)" value="1-1">
+    <button type="submit">Generate Image</button>
+  </form>
+
+  <div id="output"></div>
+
+  <script>
+    $('#generateForm').on('submit', function(e) {
+      e.preventDefault();
+
+      const prompt = $('#prompt').val();
+      const style_id = parseInt($('#style_id').val());
+      const size = $('#size').val();
+
+      const settings = {
+        async: true,
+        crossDomain: true,
+        url: 'https://ai-text-to-image-generator-flux-free-api.p.rapidapi.com/aaaaaaaaaaaaaaaaaiimagegenerator/quick.php',
+        method: 'POST',
+        headers: {
+          'x-rapidapi-key': 'c296a1adb4msh483412b9524cbc0p142aa4jsne9a4212852a9',
+          'x-rapidapi-host': 'ai-text-to-image-generator-flux-free-api.p.rapidapi.com',
+          'Content-Type': 'application/json'
+        },
+        processData: false,
+        data: JSON.stringify({
+          prompt: prompt,
+          style_id: style_id,
+          size: size
+        })
+      };
+
+      $.ajax(settings).done(function (response) {
+        if (response && response.image) {
+          $('#output').html(`<h2>Generated Image:</h2><img src="${response.image}" alt="Generated Image">`);
+        } else {
+          $('#output').html(`<p style="color: red;">Failed to generate image. Check inputs.</p>`);
+        }
+      }).fail(function (error) {
+        console.error('API Error:', error);
+        $('#output').html(`<p style="color: red;">API Error. See console for details.</p>`);
+      });
+    });
+  </script>
+
+</body>
+</html>

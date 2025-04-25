@@ -1,0 +1,25 @@
+orm and odm 
+
+
+sequel is a query language 
+in odm there are predefined function to do task
+everything is defined by a function
+
+
+orm is object related modelling odm is object data mapping 
+in one we write objects and in other we write data 
+
+sql injection attack 
+
+
+why we should not move forward with orm === basically there are vulnerabillities like sql injection attack
+--rather than putting password we can put queries that can damage our database 
+
+
+mongo db is a odm platform database --- object data modelling or object data mapping
+ 
+ objects are key value pair --- 
+ and these key value pairs..these objects are called collections 
+
+ what is the difference between sequeny and no sequel 
+ orm is sequel and odm is no sequel

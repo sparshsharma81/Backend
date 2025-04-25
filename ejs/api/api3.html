@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Text to Image</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h2>Generating Image...</h2>
+  <div id="output"></div>
+
+  <script>
+    const settings = {
+      async: true,
+      crossDomain: true,
+      url: 'https://midjourney-sd-text-to-image-uncensored.p.rapidapi.com/midjourney',
+      method: 'POST',
+      headers: {
+        'x-rapidapi-key': 'c296a1adb4msh483412b9524cbc0p142aa4jsne9a4212852a9',
+        'x-rapidapi-host': 'midjourney-sd-text-to-image-uncensored.p.rapidapi.com',
+        'Content-Type': 'application/json'
+      },
+      processData: false,
+      data: JSON.stringify({
+        prompt: "A cyberpunk city at night, illuminated by neon signs and holographic billboards. A lone figure in a futuristic trench coat walks through the rain-soaked streets, their face partially hidden by a glowing visor. The environment is filled with flying cars, robotic street vendors, and digital graffiti on skyscrapers. The wet pavement reflects the vibrant lights, creating a cinematic atmosphere. Ultra-detailed, hyper-realistic, 4K, dramatic lighting, and cyberpunk aesthetics."
+      })
+    };
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+      if (response && response.image_url) {
+        $('#output').html(`<img src="${response.image_url}" alt="Generated Image" style="max-width:100%;">`);
+      } else {
+        $('#output').text('No image URL returned.');
+      }
+    }).fail(function (jqXHR, textStatus, errorThrown) {
+      console.error("API request failed:", textStatus, errorThrown);
+      $('#output').text('API request failed: ' + errorThrown);
+    });
+  </script>
+</body>
+</html>

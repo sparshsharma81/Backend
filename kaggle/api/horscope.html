@@ -92,25 +92,24 @@
     <script>
         // Function to fetch horoscope data
         const fetchHoroscope = async () => {
-    const zodiacSign = document.getElementById('zodiac-sign').value;
-    const url = `https://cors-anywhere.herokuapp.com/https://aztro.sameerkumar.website?sign=${zodiacSign}&day=today`;
+            const zodiacSign = document.getElementById('zodiac-sign').value;
+            const apiKey = 'EYKBTjrLQh5l69EyylJMx9tsunzHZ1N28K5UDUiM'; // Your provided API key
+            const url = `https://json.freeastrologyapi.com/horoscope/daily/${zodiacSign}?api_key=${apiKey}`;
 
-    try {
-        const response = await fetch(url, {
-            method: 'POST' // Aztro API requires a POST method
-        });
+            try {
+                // Fetch the horoscope data
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch horoscope');
+                }
 
-        if (!response.ok) {
-            throw new Error('Failed to fetch horoscope');
-        }
-
-        const data = await response.json();
-        displayHoroscope(data);
-    } catch (error) {
-        console.error('Error fetching horoscope:', error);
-        document.getElementById('error-message').textContent = 'There was an error fetching the horoscope data.';
-    }
-};
+                const data = await response.json();
+                displayHoroscope(data);
+            } catch (error) {
+                console.error('Error fetching horoscope:', error);
+                document.getElementById('error-message').textContent = 'There was an error fetching the horoscope data.';
+            }
+        };
 
         // Function to display the horoscope data
         const displayHoroscope = (data) => {
@@ -120,11 +119,11 @@
             const li = document.createElement('li');
             li.classList.add('horoscope-item');
             li.innerHTML = `
-                <h3>${data.sunsign} Horoscope</h3>
-                <p><strong>Date:</strong> ${data.current_date}</p>
+                <h3>${data.sunSign} Horoscope</h3>
+                <p><strong>Date:</strong> ${data.currentDate}</p>
                 <p><strong>Description:</strong> ${data.description}</p>
-                <p><strong>Lucky Number:</strong> ${data.lucky_number}</p>
-                <p><strong>Lucky Color:</strong> ${data.lucky_color}</p>
+                <p><strong>Lucky Number:</strong> ${data.luckyNumber}</p>
+                <p><strong>Lucky Color:</strong> ${data.luckyColor}</p>
             `;
             horoscopeList.appendChild(li);
         };
