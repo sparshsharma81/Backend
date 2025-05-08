@@ -1,0 +1,13 @@
+sequel --- sql injection attack
+not possible in no sequel 
+
+how to connect mongodb with nosequel 
+
+
+driver --- if we want to connect mongodb to any language
+like node js in our case..then we need to chhoose drivers
+
+
+
+npm i monogoose --- it will install monogoose 
+ 
