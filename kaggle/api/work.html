@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradio Client - Image Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #f0f0f0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #status {
+      text-align: center;
+      margin-top: 10px;
+      color: #555;
+    }
+    #resultImage {
+      margin-top: 20px;
+      max-width: 100%;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Image Prediction using Gradio</h1>
+    <input type="text" id="imageUrlInput" placeholder="Enter image URL here...">
+    <button onclick="generatePrediction()">Generate Prediction</button>
+    <div id="status"></div>
+    <img id="resultImage" alt="Prediction Result" style="display:none;" />
+  </div>
+
+  <script>
+    const gradioAPIUrl = "https://b903d84fcdf1fad238.gradio.live/";
+    const fn_index = 11;  // Set the function index to match the correct function on Gradio API
+
+    async function generatePrediction() {
+      const imageUrl = document.getElementById("imageUrlInput").value;
+      const status = document.getElementById("status");
+      const img = document.getElementById("resultImage");
+
+      if (!imageUrl) {
+        alert("Please enter an image URL.");
+        return;
+      }
+
+      status.textContent = "Generating prediction...";
+      img.style.display = "none"; // Hide the image initially
+
+      try {
+        // API request to Gradio using fetch
+        const response = await fetch(gradioAPIUrl + "api/predict/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            data: [imageUrl], // Image URL as input data
+            fn_index: fn_index
+          })
+        });
+
+        const result = await response.json();
+        console.log("API response:", result);  // Debugging the response
+
+        if (result && result.data && result.data[0]) {
+          const predictionResult = result.data[0]; // The returned image URL or result
+          img.src = predictionResult;
+          img.style.display = "block";  // Show the generated image
+          status.textContent = "Prediction done!";
+        } else {
+          status.textContent = "Error: Unable to generate prediction.";
+          console.error("Error:", result);
+        }
+      } catch (error) {
+        status.textContent = "Error: " + error.message;
+        console.error("Error:", error);
+      }
+    }
+  </script>
+</body>
+</html>
